@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cine_estilos.css">
+    <title>Suscripción</title>
+</head>
+<body>
+    <header>
+        <h1>Suscripción al Sitio</h1>
+    </header>
+
+    <section class="main-content">
+        <form action="procesar_suscripcion.php" method="POST" name="suscripcionForm">
+            <h2>Datos de Suscripción</h2>
+
+            <label for="tipo_suscripcion">Tipo de Suscripción:</label>
+            <select name="tipo_suscripcion" required>
+                <option value="mensual">Mensual</option>
+                <option value="anual">Anual</option>
+            </select>
+
+            <label for="num_tarjeta">Número de Tarjeta:</label>
+            <input type="text" name="num_tarjeta" placeholder="Ingrese el número de tarjeta" required>
+
+            <label for="banco_tarjeta">Banco de la Tarjeta:</label>
+            <input type="text" name="banco_tarjeta" placeholder="Ingrese el banco de la tarjeta" required>
+
+            <label for="precio_pagar">Precio a Pagar:</label>
+            <input type="text" name="precio_pagar" placeholder="Ingrese el precio a pagar" required>
+
+            <label for="fecha_tarjeta">Fecha de la Tarjeta (MM/AA):</label>
+            <input type="text" name="fecha_tarjeta" placeholder="MM/AA" required>
+
+            <label for="cvc">CVC:</label>
+            <input type="text" name="cvc" placeholder="Ingrese el CVC" required>
+
+            <input type="submit" name="realizar_pago" value="Realizar Pago">
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; MOVE - PW1 - octubre/2023 CineStreaming. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

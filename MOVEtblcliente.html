@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cine_estilos.css">
+    <title>Administrar Clientes</title>
+    <script>
+        //Funcióh para generar parte del CURP de manera de automatica.
+        function generarCURP() {
+            //Obtener los valores de los campos.
+            var nombre = document.getElementsByName('nombre')[0].value;
+            var ap_paterno = document.getElementsByName('ap_paterno')[0].value;
+            var ap_materno = document.getElementsByName('ap_materno')[0].value;
+            var fecha_nacimiento = document.getElementById('fecha_nacimiento').value;
+
+            //Aplicar expresiones regulares y formatear la información para generar el CURP.
+            var curp = obtenerIniciales(nombre) +
+                obtenerIniciales(ap_paterno) +
+                obtenerIniciales(ap_materno) +
+                obtenerFechaCURP(fecha_nacimiento);
+
+            //Mostrar el CURP en el campo correspondiente.
+            var curpInput = document.getElementsByName('CURP')[0];
+            curpInput.value = curp;
+            curpInput.removeAttribute('readonly'); // Permitir edición
+        }
+
+        function obtenerIniciales(texto) {
+            //Obtener las iniciales de cada palabra en el texto.
+            var iniciales = texto.match(/\b\w/g) || [];
+            return iniciales.join('').toUpperCase();
+        }
+
+        function obtenerFechaCURP(fecha) {
+            //Obtener el año, mes y día de la fecha.
+            var fechaArray = fecha.split('-');
+            var año = fechaArray[0].substr(2);
+            var mes = fechaArray[1];
+            var dia = fechaArray[2];
+
+            //Formatear la fecha para el CURP.
+            return año + mes + dia;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            //Generar el CURP al cargar la página.
+            generarCURP();
+        });
+
+        function habilitarEdicionCURP() {
+            //Habilitar la edición del campo CURP.
+            var curpInput = document.getElementsByName('CURP')[0];
+            curpInput.removeAttribute('readonly');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administrar Clientes</h1>
+    </header>
+
+    <section class="main-content">
+        <form action="MOVE_CRUD_clientes.php" method="POST" enctype="multipart/form-data" name="clienteForm">
+            <h2>Datos de Clientes</h2>
+            <label for="id_cliente">ID Cliente:</label>
+            <input type="text" name="id_cliente" required>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" required>
+
+            <label for="ap_paterno">Apellido Paterno:</label>
+            <input type="text" name="ap_paterno" required>
+
+            <label for="ap_materno">Apellido Materno:</label>
+            <input type="text" name="ap_materno" required>
+
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" onchange="generarCURP()" required>
+
+            <label for="CURP">CURP:</label>
+            <input type="text" name="CURP" id="CURP" required readonly>
+            <!-- Botón para editar el CURP <button type="button" onclick="habilitarEdicionCURP()">Editar CURP</button>--> 
+
+
+            <label for="RFC">RFC:</label>
+            <input type="text" name="RFC" required>
+
+            <label for="tipo_membresia">Tipo de Membresía:</label>
+            <input type="text" name="tipo_membresia" required>
+
+            <label for="fecha_inicio_membresia">Fecha de Inicio de Membresía:</label>
+            <input type="date" name="fecha_inicio_membresia" required>
+
+            <label for="fecha_termino_membresia">Fecha de Término de Membresía:</label>
+            <input type="date" name="fecha_termino_membresia" required>
+
+            <input type="hidden" name="id_cliente_modificar" id="id_cliente_modificar">
+
+
+                            <!-- Botón para el pago con tarjeta -->
+                <button class="btn-suscripcion" onclick="redirigirASuscripcion()">Tarjeta</button>
+
+                <script>
+                    function redirigirASuscripcion() {
+                        window.open('MOVEtblsuscripcion.html', '_blank');
+                    }
+                </script>
+
+            <input type="submit" name="agregar_cliente" value="Agregar Cliente" onclick="validateForm('agregar_cliente')">
+            <input type="submit" name="borrar_cliente" value="Borrar Cliente" onclick="validateForm('borrar_cliente')">
+            <input type="submit" name="modificar_cliente" value="Actualizar Cliente" onclick="validateForm('modificar_cliente')">
+        </form>
+
+        <div id="lista-clientes">
+            <!-- Los clientes se mostrarán aquí después de cargar la página -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; MOVE - PW1 - octubre/2023 CineStreaming. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

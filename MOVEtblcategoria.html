@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cine_estilos.css">
+    <title>Administrar Categorías</title>
+    <script>
+        // Función para obtener y mostrar las categorías directamente en el HTML
+        function obtenerYMostrarCategorias() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Manipular el DOM para mostrar las categorías
+                    document.getElementById("lista-categorias").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open("GET", "MOVE_obtener_categorias.php", true);
+            xhr.send();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Llamar a la función al cargar la página
+            obtenerYMostrarCategorias();
+        });
+
+        function validateForm(buttonName) {
+            if (buttonName === 'agregar_categoria' || buttonName === 'borrar_categoria' || buttonName === 'modificar_categoria') {
+                // Establecer el valor del campo oculto antes de enviar el formulario
+                if (buttonName === 'modificar_categoria') {
+                    document.getElementById('id_categoria_modificar').value = document.getElementsByName('id_categoria')[0].value;
+                }
+
+                // Enviar el formulario
+                document.categoriaForm.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administrar Categorías</h1>
+    </header>
+
+    <section class="main-content">
+        <!-- Formulario para agregar, actualizar y borrar categoría -->
+        <form action="MOVE_CRUD_categorias.php" method="POST" enctype="multipart/form-data" name="categoriaForm">
+            <h2>Datos de Categorías</h2>
+            <!-- Campos del formulario -->
+            <label for="id_categoria">ID Categoría:</label>
+            <input type="text" name="id_categoria" required>            
+
+            <label for="categoria">Categoría:</label>
+            <input type="text" name="categoria" required>
+
+            <!-- Agrega un campo oculto para almacenar el ID de la categoría a modificar -->
+            <input type="hidden" name="id_categoria_modificar" id="id_categoria_modificar">
+
+            <!-- Botones para enviar el formulario -->
+            <input type="submit" name="agregar_categoria" value="Agregar Categoría" onclick="validateForm('agregar_categoria')">
+            <input type="submit" name="borrar_categoria" value="Borrar Categoría" onclick="validateForm('borrar_categoria')">
+            <input type="submit" name="modificar_categoria" value="Actualizar Categoría" onclick="validateForm('modificar_categoria')">
+        </form>
+
+        <!-- Lista de categorías existentes -->
+        <div id="lista-categorias">
+            <!-- Las categorías se mostrarán aquí después de cargar la página -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; MOVE - PW1 - octubre/2023 CineStreaming. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

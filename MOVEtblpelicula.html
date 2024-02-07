@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cine_estilos.css">
+    <title>Administrar Películas</title>
+    <script>
+        function obtenerYMostrarPeliculas() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("lista-peliculas").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open("GET", "MOVE_obtener_peliculas.php", true);
+            xhr.send();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            obtenerYMostrarPeliculas();
+        });
+
+        function validateForm(buttonName) {
+            if (buttonName === 'agregar_pelicula' || buttonName === 'borrar_pelicula' || buttonName === 'modificar_pelicula') {
+                if (buttonName === 'modificar_pelicula') {
+                    document.getElementById('id_pelicula_modificar').value = document.getElementsByName('id_pelicula')[0].value;
+                }
+
+                document.peliculaForm.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administrar Películas</h1>
+    </header>
+
+    <section class="main-content">
+        <form action="MOVE_CRUD_peliculas.php" method="POST" enctype="multipart/form-data" name="peliculaForm">
+            <h2>Datos de Películas</h2>
+            <label for="id_pelicula">ID Película:</label>
+            <input type="text" name="id_pelicula" required>
+
+            <!-- Añadir campos necesarios para la película -->
+            <label for="id_categoria">ID Categoría:</label>
+            <input type="text" name="id_categoria" required>
+
+            <label for="id_director">ID Director:</label>
+            <input type="text" name="id_director" required>
+
+            <label for="id_actor1">ID Actor 1:</label>
+            <input type="text" name="id_actor1" required>
+
+            <label for="id_actor2">ID Actor 2:</label>
+            <input type="text" name="id_actor2" required>
+
+            <label for="id_usuario">ID Usuario:</label>
+            <input type="text" name="id_usuario" required>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" required>
+
+            <label for="país">País:</label>
+            <input type="text" name="país" required>
+
+            <label for="sinopsis">Sinopsis:</label>
+            <textarea name="sinopsis" rows="4" cols="50" required></textarea>
+
+            <label for="año_lanzamiento">Año de Lanzamiento:</label>
+            <input type="text" name="año_lanzamiento" required>
+
+            <label for="clasificacion">Clasificación:</label>
+            <input type="text" name="clasificacion" required>
+
+            <label for="imagen">Imagen:</label>
+            <input type="file" name="imagen" accept="image/*" required>
+
+            <input type="hidden" name="id_pelicula_modificar" id="id_pelicula_modificar">
+
+            <input type="submit" name="agregar_pelicula" value="Agregar Película" onclick="validateForm('agregar_pelicula')">
+            <input type="submit" name="borrar_pelicula" value="Borrar Película" onclick="validateForm('borrar_pelicula')">
+            <input type="submit" name="modificar_pelicula" value="Actualizar Película" onclick="validateForm('modificar_pelicula')">
+        </form>
+
+        <div id="lista-peliculas">
+            <!-- Las películas se mostrarán aquí después de cargar la página -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; MOVE - PW1 - octubre/2023 CineStreaming. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

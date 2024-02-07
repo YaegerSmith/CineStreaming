@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cine_estilos.css">
+    <title>Administrar Suscripciones</title>
+    <script>
+        function obtenerYMostrarSuscripciones() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("lista-suscripciones").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open("GET", "MOVE_obtener_suscripciones.php", true);
+            xhr.send();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            obtenerYMostrarSuscripciones();
+        });
+
+        function validateForm(buttonName) {
+            if (buttonName === 'agregar_suscripcion' || buttonName === 'borrar_suscripcion' || buttonName === 'modificar_suscripcion') {
+                if (buttonName === 'modificar_suscripcion') {
+                    document.getElementById('id_suscripcion_modificar').value = document.getElementsByName('id_suscripcion')[0].value;
+                }
+
+                document.suscripcionForm.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administrar Suscripciones</h1>
+    </header>
+
+    <section class="main-content">
+        <form action="MOVE_CRUD_suscripcion.php" method="POST" enctype="multipart/form-data" name="suscripcionForm">
+            <h2>Datos de Suscripciones</h2>
+            <label for="id_suscripcion">ID Suscripción:</label>
+            <input type="text" name="id_suscripcion" required>
+
+            <label for="id_cliente">ID Cliente:</label>
+            <input type="text" name="id_cliente" required>
+
+            <label for="tipo_suscripcion">Tipo de Suscripción:</label>
+            <input type="text" name="tipo_suscripcion" required>
+
+            <label for="numero_tarjeta">Número de Tarjeta:</label>
+            <input type="text" name="numero_tarjeta" required>
+
+            <label for="banco_tarjeta">Banco de la Tarjeta:</label>
+            <input type="text" name="banco_tarjeta" required>
+
+            <label for="precio_pagar">Precio a Pagar:</label>
+            <input type="text" name="precio_pagar" required>
+
+            <label for="fecha_tarjeta">Fecha de la Tarjeta:</label>
+            <input type="text" name="fecha_tarjeta" required>
+
+            <label for="cvc">CVC:</label>
+            <input type="text" name="cvc" required>
+
+            <label for="fecha_registro">Fecha de Registro:</label>
+            <input type="date" name="fecha_registro" required>
+
+            <input type="hidden" name="id_suscripcion_modificar" id="id_suscripcion_modificar">
+
+            <input type="submit" name="agregar_suscripcion" value="Agregar Suscripción" onclick="validateForm('agregar_suscripcion')">
+            <input type="submit" name="borrar_suscripcion" value="Borrar Suscripción" onclick="validateForm('borrar_suscripcion')">
+            <input type="submit" name="modificar_suscripcion" value="Actualizar Suscripción" onclick="validateForm('modificar_suscripcion')">
+        </form>
+
+        <div id="lista-suscripciones">
+            <!-- Las suscripciones se mostrarán aquí después de cargar la página -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; MOVE - PW1 - octubre/2023 CineStreaming. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

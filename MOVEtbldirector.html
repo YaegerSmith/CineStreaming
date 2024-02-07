@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cine_estilos.css">
+    <title>Administrar Directores</title>
+    <script>
+        function obtenerYMostrarDirectores() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("lista-directores").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open("GET", "MOVE_obtener_directores.php", true);
+            xhr.send();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            obtenerYMostrarDirectores();
+        });
+
+        function validateForm(buttonName) {
+            if (buttonName === 'agregar_director' || buttonName === 'borrar_director' || buttonName === 'modificar_director') {
+                if (buttonName === 'modificar_director') {
+                    document.getElementById('id_director_modificar').value = document.getElementsByName('id_director')[0].value;
+                }
+
+                document.directorForm.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administrar Directores</h1>
+    </header>
+
+    <section class="main-content">
+        <form action="MOVE_CRUD_director.php" method="POST" enctype="multipart/form-data" name="directorForm">
+            <h2>Datos de Directores</h2>
+            <label for="id_director">ID Director:</label>
+            <input type="text" name="id_director" required>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" required>
+
+            <label for="ap_paterno">Apellido Paterno:</label>
+            <input type="text" name="ap_paterno" required>
+
+            <label for="ap_materno">Apellido Materno:</label>
+            <input type="text" name="ap_materno" required>
+
+            <label for="nacionalidad">Nacionalidad:</label>
+            <input type="text" name="nacionalidad" required>
+
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" name="fecha_nacimiento" required>
+
+            <input type="hidden" name="id_director_modificar" id="id_director_modificar">
+
+            <input type="submit" name="agregar_director" value="Agregar Director" onclick="validateForm('agregar_director')">
+            <input type="submit" name="borrar_director" value="Borrar Director" onclick="validateForm('borrar_director')">
+            <input type="submit" name="modificar_director" value="Actualizar Director" onclick="validateForm('modificar_director')">
+        </form>
+
+        <div id="lista-directores">
+            <!-- Los directores se mostrarán aquí después de cargar la página -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; MOVE - PW1 - octubre/2023 CineStreaming. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

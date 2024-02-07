@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cine_estilos.css">
+    <title>Iniciar Sesión - CineStreaming</title>
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a CineStreaming</h1>
+    </header>
+
+    <section class="login-content">
+        <h2>Iniciar Sesión</h2>
+        <!-- Cambios en el formulario -->
+        <form action="login.php" method="post"> <!-- Cambié el action para que apunte al archivo PHP -->
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" required>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+
+            <button type="submit" class="cta-button">Iniciar Sesión</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; MOVE - PW1 - octubre/2023 CineStreaming. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
